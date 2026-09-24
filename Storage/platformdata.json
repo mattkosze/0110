@@ -4,29 +4,29 @@
         "desc": "GROUP ",
         "posts": {
             "POSTID": {
+                "author": 1234,
                 "title": "POST TITLE", 
                 "content": "POST CONTENT",
                 "votes": [],
-                "comments": {
+                "comments": [true , {
                     "COMMENTID": {
-                        "author": 1234,
-                        "content": "COMMENT CONTENT",
-                        "votes": [],
-                        "replies": [true, {
-                            "REPLYID": {
-                                "author": 1,
-                                "content": "TEXT",
-                                "votes": [],
-                                "replies": [false, {}]
+                            "author": 1234,
+                            "content": "COMMENT",
+                            "votes": [],
+                            "replies": [true, {
+                                "REPLYID": {
+                                    "author": 1,
+                                    "content": "COMMENT",
+                                    "votes": [],
+                                    "replies": [false, {}]
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                } 
+                            ]
+                        }
+                    } 
+                ]
             }
         },
-        "members": {
-            "1": "MEMBERID"
-        }
+        "members": []
     }
-}
+}[]
