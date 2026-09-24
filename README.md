@@ -12,3 +12,41 @@ Simulants are designed as a generalizable class that can be instantiated as a sp
 
 ### Testing Overhead
 The testing architure allows for specification regarding the list of reddit communites and posts upon which to act.
+
+## Data Storage
+
+All the platform data is stored in the following schema:
+'''
+{
+    "GROUPID":{
+        "name": "GROUP NAME", 
+        "desc": "GROUP ",
+        "posts": {
+            "POSTID": {
+                "title": "POST TITLE", 
+                "content": "POST CONTENT",
+                "votes": [],
+                "comments": {
+                    "COMMENTID": {
+                        "author": 1234,
+                        "content": "COMMENT CONTENT",
+                        "votes": [],
+                        "replies": [true, {
+                            "REPLYID": {
+                                "author": 1,
+                                "content": "TEXT",
+                                "votes": [],
+                                "replies": [false, []]
+                                }
+                            }
+                        ]
+                    }
+                } 
+            }
+        },
+        "members": {
+            "1": "MEMBERID"
+        }
+    }
+}
+'''

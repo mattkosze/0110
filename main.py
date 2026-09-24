@@ -1,5 +1,8 @@
-from Classes.platform import platform
+import json
 
-website = platform("hello")
+with open("Storage/platformdata.json") as r:
+    data = json.load(r)
 
-website.hello()
+print(data)
+
+print(data["MBB"]["desc"])
