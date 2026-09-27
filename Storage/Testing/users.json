@@ -1,0 +1,21 @@
+{
+    "U123456": {
+        "name": "User one",
+        "bio": "Bio a",
+        "karma": 10, 
+        "contributions": 15,
+        "posts": ["G123P12345"],
+        "replies": ["G123P12345R123456R789012"],
+        "personalBio": ""
+    }, 
+    "U789012": {
+        "name": "User two",
+        "bio": "Bio b",
+        "karma": 10, 
+        "contributions": 15,
+        "posts": [],
+        "replies": ["G123P12345R123456"],
+        "personalBio": ""
+    }
+
+}

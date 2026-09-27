@@ -1,12 +1,13 @@
 import json
 from Classes.schemas import *
+from Classes.simulant import Simulant
 
 class Platform:
     def __init__(self, pData=None, pUsers=None):
         # Communities will be stored in a dict k:v format where a unique ID (key) corresponds to a community class object (value)
         self.communities = {}
         # Platform users will be stored as set format containing user ids
-        self.users = {1, 2}
+        self.users = {}
 
         # NOTE: May opt to make both necessary, as there's likely no situation in which these shouldn't be loaded
         if pData:
@@ -110,8 +111,28 @@ class Platform:
         return replies
 
     # Loads in user data from a data store json file
-    def populateUsers(self, uData):
-        pass
+    def populateUsers(self, jsonData):
+        with open(jsonData, "r") as file:
+            data = json.load(file)
+
+        for uID in data:
+            
+            entry = data[uID]
+
+            community = self.communities
+
+            id = uID
+            name = entry["name"]
+            bio = entry["bio"]
+            karma = entry["karma"]
+            contributions = entry["contributions"]
+            posts = entry["posts"]
+            replies = entry["replies"]
+            personalBio = entry["personalBio"]
+
+            simulant = Simulant(community, id, name, bio, karma, contributions, posts, replies, personalBio)
+
+            self.users[id] = simulant
 
     # <----------------- Interaction functions ----------------->
 

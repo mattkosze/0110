@@ -1,25 +1,27 @@
-from schemas import Profile
+from Classes.schemas import Profile
 
 class Simulant(Profile):
-    def __init__(self, env, id, name, bio, karma, contributions, posts, replies, personalBio):
-        self.env = env
+    def __init__(self, community, id, name, bio, karma, contributions, posts, replies, personalBio):
+        self.community = community
+
+        posts = set(posts)
+        replies = set(replies)
         
         postContents = self.loadPosts(posts)
         replyContents = self.loadReplies(replies)
         
-        super.__init__(id, name, bio, karma, contributions, postContents, replyContents)
+        super().__init__(id, name, bio, karma, contributions, postContents, replyContents)
 
         self.personalBio = personalBio
 
     def loadPosts(self, pIDs):
         posts = {}
 
-        for entry in pIDs:
-            gID = pIDs[entry]
+        for gID in pIDs:
             groupID = gID[:4]
             postID = gID[4:]
 
-            contents = self.env.communities[groupID].posts[postID].content
+            contents = self.community[groupID].posts[postID].content
 
             posts[gID] = contents
 
@@ -30,12 +32,11 @@ class Simulant(Profile):
     def loadReplies(self, rIDs):
         replies = {}
 
-        for entry in rIDs:
-            gID = rIDs[entry]
+        for gID in rIDs:
             groupID = gID[:4]
             postID = gID[4:10]
 
-            comments = self.env.communities[groupID].posts[postID].comments
+            comments = self.community[groupID].posts[postID].comments
 
             # Gets the reply ID
             lID = gID[10:]
@@ -50,13 +51,6 @@ class Simulant(Profile):
             replies[gID] = reply
 
         return replies
-
-            
-
-
-
-
-
 
 
 # GROUPID: G123
