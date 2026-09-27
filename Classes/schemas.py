@@ -1,14 +1,14 @@
 
 class Community:
-     def __init__(self, id, name, desc, posts, members):
-         self.id = id
-         self.name = name
-         self.desc = desc
-         self.posts = posts
-         self.members = members
+     def __init__(self, id, name, desc, posts={}, members={}):
+         self.id = id # str
+         self.name = name # str
+         self.desc = desc # str
+         self.posts = posts # dict
+         self.members = members # set
 
 class Post:
-    def __init__(self, id, author, title, content, upvotes, downvotes, comments):
+    def __init__(self, id, author, title, content, upvotes=0, downvotes=0, comments={}):
         self.id = id
         self.author = author
         self.title = title

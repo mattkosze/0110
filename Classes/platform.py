@@ -1,4 +1,5 @@
 import json
+import random
 from Classes.schemas import *
 from Classes.simulant import Simulant
 
@@ -138,12 +139,48 @@ class Platform:
 
     # Handles community creation
     def createCommunity(self, cName, cDesc):
-        pass
+        # Generate community ID
+        while True:
+            id = f"G{random.randint(0, 999):03d}"
+            if id not in self.communities:
+                break
+        
+        community = Community(id, cName, cDesc)
+
+        self.communities[id] = community
 
     # Handles post creation within a community
-    def createPost(self):
-        pass
+    def createPost(self, cID, aID, title, content):
+        # Generate post ID
+        while True:
+            id = f"P{random.randint(0, 99999):05d}"
+            if id not in self.communities[cID].posts:
+                break
 
+        post = Post(id, aID, title, content)
+
+        self.communities[cID].posts[id] = post
+
+    def createComment(self):
+        # Generate comment ID
+        while True:
+            id = f"G{random.randint(0, 999999):06d}"
+            if id not in self.communities:
+                break
+
+    # Helper function to get to selected reply level
+    def traverseTo(self, gID, rAccess=None):
+        if gID[0] == "R":
+            if len(gID) > 6:
+                locate = rAccess.replies
+                traverse
+        elif gID[0] == "P":
+            pass
+        else:
+            pass
+        
+# GID: G123P12345R123456R789012
+ 
     # <----------------- Shutdown functions   ----------------->
     # LEAVING THIS FOR LAST, SHUTDOWN FUNCTIONS DEPEND ON ALL PREVIOUS INFO
 

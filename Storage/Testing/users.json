@@ -6,7 +6,7 @@
         "contributions": 15,
         "posts": ["G123P12345"],
         "replies": ["G123P12345R123456R789012"],
-        "personalBio": ""
+        "personalBio": "prompt bio"
     }, 
     "U789012": {
         "name": "User two",
@@ -15,7 +15,6 @@
         "contributions": 15,
         "posts": [],
         "replies": ["G123P12345R123456"],
-        "personalBio": ""
+        "personalBio": "prompt bio"
     }
-
 }
