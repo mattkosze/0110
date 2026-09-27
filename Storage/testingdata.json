@@ -1,23 +1,23 @@
 {
-    "GROUPID":{
+    "G123":{
         "name": "GROUP NAME", 
-        "desc": "GROUP ",
+        "desc": "GROUP DESC",
         "posts": {
-            "POSTID": {
+            "P12345": {
                 "author": 1234,
                 "title": "POST TITLE", 
                 "content": "POST CONTENT",
-                "votes": [],
+                "votes": [1, 2],
                 "comments": [true , {
-                    "COMMENTID": {
+                    "R123456": {
                             "author": 1234,
-                            "content": "COMMENT",
-                            "votes": [],
+                            "content": "THIS IS A TOP LEVEL REPLY",
+                            "votes": [1, 3],
                             "replies": [true, {
-                                "REPLYID": {
-                                    "author": 1,
-                                    "content": "COMMENT",
-                                    "votes": [],
+                                "R789012": {
+                                    "author": 1234,
+                                    "content": "THIS IS A LOWER LEVEL REPLY",
+                                    "votes": [1, 4],
                                     "replies": [false, {}]
                                     }
                                 }

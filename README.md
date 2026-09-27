@@ -15,38 +15,8 @@ The testing architure allows for specification regarding the list of reddit comm
 
 ## Data Storage
 
-All the platform data is stored in the following schema:
-'''
-{
-    "GROUPID":{
-        "name": "GROUP NAME", 
-        "desc": "GROUP ",
-        "posts": {
-            "POSTID": {
-                "title": "POST TITLE", 
-                "content": "POST CONTENT",
-                "votes": [],
-                "comments": {
-                    "COMMENTID": {
-                        "author": 1234,
-                        "content": "COMMENT CONTENT",
-                        "votes": [],
-                        "replies": [true, {
-                            "REPLYID": {
-                                "author": 1,
-                                "content": "TEXT",
-                                "votes": [],
-                                "replies": [false, []]
-                                }
-                            }
-                        ]
-                    }
-                } 
-            }
-        },
-        "members": {
-            "1": "MEMBERID"
-        }
-    }
-}
-'''
+Platform and user data is stored in corresponding JSON files, where for platform data the structure goes `community --> post --> repl(ies)` and is stored in objects so it can be accessed in a tree-like fashion. 
+
+To access data, you follow a tree using `GROUPID`'s, `POSTID`'s, and `REPLYID`'s. This is where `GROUPID`'s are of format "G123",  `POSTID`'s follow "P12345", and `REPLYID`'s follow "R123456".
+
+For example, a top-level reply would have it's total ID be "G123P12345R123456", which can then be broken down to access the reply itself. Lower-level replies would have total ID "...R123456R789012" which is again traversed down the tree until the record is accessed.

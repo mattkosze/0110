@@ -1,5 +1,5 @@
 import json
-from schemas import *
+from Classes.schemas import *
 
 class Platform:
     def __init__(self, pData=None, pUsers=None):
@@ -19,7 +19,7 @@ class Platform:
     # Loads in community and post data from a data store json file
     def populateWebsite(self, jsonData):
         with open(jsonData, "r") as file:
-            data = json.loads(file)
+            data = json.load(file)
 
         for gID in data:
             entry = data[gID]
@@ -31,7 +31,7 @@ class Platform:
             postsRaw = entry["posts"]
             posts = self.populatePosts(postsRaw)
 
-            members = entry["members"]
+            members = set(entry["members"])
             
             comm = Community(id, name, desc, posts, members)
             self.communities[gID] = comm
@@ -48,7 +48,7 @@ class Platform:
             content = entry["content"]
             upvotes = entry["votes"][0]
             downvotes = entry["votes"][1]
-            comments = self.populateComments()
+            comments = self.populateComments(entry["comments"][1])
 
             post = Post(id, author, title, content, upvotes, downvotes, comments)
 
@@ -72,7 +72,7 @@ class Platform:
             replies = entry["replies"][1]
 
             if hasReplies:
-                replies = self.populateComments(replies, id)
+                replies = self.populateReplies(replies, id)
                 comment = Comment(id, author, content, upvotes, downvotes, hasReplies, replies)
             else:
                 comment = Comment(id, author, content, upvotes, downvotes)

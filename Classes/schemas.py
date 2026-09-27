@@ -18,7 +18,7 @@ class Post:
         self.comments = comments
 
 class Comment:
-    def __init__(self, id, author, content, upvotes, downvotes, isReply=False, parentID=-1, hasReplies=False, replies={}):
+    def __init__(self, id, author, content, upvotes, downvotes, hasReplies=False, replies={}, isReply=False, parentID=-1):
         self.id = id
         self.author = author
         self.content = content
@@ -28,4 +28,14 @@ class Comment:
         # ParentID defaults to -1 when no parent exists
         self.parentID = parentID
         self.hasReplies = hasReplies
+        self.replies = replies
+
+class Profile:
+    def __init__(self, id, name, bio, karma, contributions, posts, replies):
+        self.id = id
+        self.name = name
+        self.bio = bio
+        self.karma = karma
+        self.contributions = contributions
+        self.posts = posts
         self.replies = replies
