@@ -39,7 +39,7 @@ class Platform:
             self.communities[cID] = comm
 
     def populatePosts(self, pData, cID):
-        posts = {}
+        postList = {}
 
         for pID in pData:
             entry = pData[pID]
@@ -51,68 +51,38 @@ class Platform:
             content = entry["content"]
             upvotes = entry["votes"][0]
             downvotes = entry["votes"][1]
-            replies = self.populateComments(entry["replies"][1], gID)
+            replies = self.populateReplies(entry["replies"], gID)
 
             post = Post(id, gID, author, title, content, upvotes, downvotes, replies)
 
-            posts[pID] = post
+            postList[pID] = post
 
-        return posts
+        return postList
 
-    def populateComments(self, cData, tID):
-        comments = {}
+    def populateReplies(self, rData, tID):
+        replyList = {}
 
-        for cID in cData:
-            entry = cData[cID]
+        for id in rData:
+            entry = rData[id]
 
-            id = cID
-            gID = tID + id
-            author = entry["author"]
-            content = entry["content"]
-            upvotes = entry["votes"][0]
-            downvotes = entry["votes"][1]
-            
-            hasReplies = entry["replies"][0]
-            replies = entry["replies"][1]
-
-            if hasReplies:
-                replies = self.populateReplies(replies, id, gID)
-                comment = Comment(id, gID, author, content, upvotes, downvotes, hasReplies, replies)
-            else:
-                comment = Comment(id, gID, author, content, upvotes, downvotes)
-
-            comments[cID] = comment
-
-        return comments 
-
-
-    def populateReplies(self, rData, parentID, tID):
-        replies = {}
-
-        for rID in rData:
-            entry = rData[rID]
-
-            id = rID
             gID = tID + id
             author = entry["author"]
             content = entry["content"]
             upvotes = entry["votes"][0]
             downvotes = entry["votes"][1]
 
-            isReply = True
-
-            hasReplies = entry["replies"][0]
-            replies = entry["replies"][1]
+            replies = entry["replies"]
+            hasReplies = (True if replies != {} else False) 
 
             if hasReplies:
-                replies = self.populateReplies(replies, id)
-                reply = Comment(id, gID, author, content, upvotes, downvotes, isReply, parentID, hasReplies, replies)
+                recReplies = self.populateReplies(replies, gID)
+                reply = Reply(id, gID, author, content, upvotes, downvotes, recReplies)
             else:
-                reply = Comment(id, gID, author, content, upvotes, downvotes, isReply, parentID)
+                reply = Reply(id, gID, author, content, upvotes, downvotes)
 
-            replies[rID] = reply
+            replyList[id] = reply
 
-        return replies
+        return replyList
 
     # Loads in user data from a data store json file
     def populateUsers(self, jsonData):
@@ -166,16 +136,39 @@ class Platform:
 
         self.communities[cID].posts[id] = post
 
-        return id
+        return gID
 
-    def createReply(self):
-        # Generate reply ID
+    # GID: G123P12345R123456
+    # with R789012
+
+    # Handles reply creation within a post or reply
+    def createReply(self, rID, aID, content):
+        # Access top level comment being replied to
+        replyTo = self.traverseTo(rID)
+
+        parentType = replyTo.id
+        if parentType[0] == "P":
+            isReply = False
+        elif parentType[0] == "R":
+            isReply = True
+        else: 
+            print("Replying to something unrepliable")
+            raise RuntimeError 
+
+        # Generate reply ID, which varies for comments versus replies
         while True:
-            id = f"G{random.randint(0, 999999):06d}"
-            if id not in self.communities:
+            id = f"R{random.randint(0, 999999):06d}"
+            ## Check that it's not already at this level
+            if id not in replyTo.replies:
                 break
 
-    # Helper function to get a given content ID
+        gID = rID + id
+        
+        reply = Reply(id, gID, aID, content)
+
+        replyTo.replies[id] = reply
+
+    # Helper function to access a given global id
     def traverseTo(self, gID, rAccess=None):
         if len(gID) == 0:
             return rAccess

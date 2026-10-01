@@ -19,10 +19,7 @@ class Simulant(Profile):
 
         for gID in IDs:
             entryContent = self.traverseTo(gID).content
-
             contents[gID] = entryContent
-
-            ## Potentially may add more recording here later where upvotes, downvotes, and comments are stored and influence restrospective evaluation of posts and thereby impact future likelihood of posting similar content again
 
         return contents
 

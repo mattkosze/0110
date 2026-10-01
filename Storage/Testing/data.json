@@ -8,23 +8,21 @@
                 "title": "POST TITLE", 
                 "content": "POST CONTENT",
                 "votes": [1, 2],
-                "replies": [true , {
+                "replies": {
                     "R123456": {
-                            "author": 1234,
-                            "content": "THIS IS A TOP LEVEL REPLY",
-                            "votes": [1, 3],
-                            "replies": [true, {
-                                "R789012": {
-                                    "author": 1234,
-                                    "content": "THIS IS A LOWER LEVEL REPLY",
-                                    "votes": [1, 4],
-                                    "replies": [false, {}]
-                                    }
-                                }
-                            ]
+                        "author": 1234,
+                        "content": "THIS IS A TOP LEVEL REPLY",
+                        "votes": [1, 3],
+                        "replies": {
+                            "R789012": {
+                                "author": 1234,
+                                "content": "THIS IS A LOWER LEVEL REPLY",
+                                "votes": [1, 4],
+                                "replies": {}
+                            }
                         }
-                    } 
-                ]
+                     }
+                } 
             }
         },
         "members": ["U123456", "U789012"]
