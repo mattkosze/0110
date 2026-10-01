@@ -13,7 +13,7 @@ print(test)
 post = env.createPost("G123", "U123456", "New post", "new post content")
 
 print(test)
-print(test[post].replies)
+print(test[post].gID)
 
 post = env.createReply
 

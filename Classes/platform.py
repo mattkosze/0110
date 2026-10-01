@@ -23,28 +23,29 @@ class Platform:
         with open(jsonData, "r") as file:
             data = json.load(file)
 
-        for gID in data:
-            entry = data[gID]
+        for cID in data:
+            entry = data[cID]
 
-            id = gID
+            id = cID
             name = entry["name"]
             desc = entry["desc"]
 
             postsRaw = entry["posts"]
-            posts = self.populatePosts(postsRaw)
+            posts = self.populatePosts(postsRaw, cID)
 
             members = set(entry["members"])
             
             comm = Community(id, name, desc, posts, members)
-            self.communities[gID] = comm
+            self.communities[cID] = comm
 
-    def populatePosts(self, pData):
+    def populatePosts(self, pData, cID):
         posts = {}
 
         for pID in pData:
             entry = pData[pID]
 
             id = pID
+            gID = cID + pID
             author = entry["author"]
             title = entry["title"]
             content = entry["content"]
@@ -52,7 +53,7 @@ class Platform:
             downvotes = entry["votes"][1]
             replies = self.populateComments(entry["replies"][1])
 
-            post = Post(id, author, title, content, upvotes, downvotes, replies)
+            post = Post(id, gID, author, title, content, upvotes, downvotes, replies)
 
             posts[pID] = post
 
@@ -157,7 +158,9 @@ class Platform:
             if id not in self.communities[cID].posts:
                 break
 
-        post = Post(id, aID, title, content)
+        gID = cID + id
+
+        post = Post(id, gID, aID, title, content)
 
         self.communities[cID].posts[id] = post
 
