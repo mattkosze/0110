@@ -161,8 +161,10 @@ class Platform:
 
         self.communities[cID].posts[id] = post
 
-    def createComment(self):
-        # Generate comment ID
+        return id
+
+    def createReply(self):
+        # Generate reply ID
         while True:
             id = f"G{random.randint(0, 999999):06d}"
             if id not in self.communities:

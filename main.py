@@ -6,12 +6,14 @@ replies = {"1": "G123P12345R123456R789012"}
 # Dummy environment set up for testing
 env = Platform(pData="Storage/Testing/data.json", pUsers="Storage/Testing/users.json")
 
-stuff = env.communities["G123"].posts
+test = env.communities["G123"].posts
 
-print(stuff)
+print(test)
 
-env.createPost("G123", "U123456", "New post", "new post content")
+post = env.createPost("G123", "U123456", "New post", "new post content")
 
-contentTest = env.traverseTo("G123P12345R123456R789012").content
+print(test)
+print(test[post].replies)
 
-print(contentTest)
+post = env.createReply
+
