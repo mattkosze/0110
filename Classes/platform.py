@@ -51,7 +51,7 @@ class Platform:
             content = entry["content"]
             upvotes = entry["votes"][0]
             downvotes = entry["votes"][1]
-            replies = self.populateComments(entry["replies"][1])
+            replies = self.populateComments(entry["replies"][1], gID)
 
             post = Post(id, gID, author, title, content, upvotes, downvotes, replies)
 
@@ -59,13 +59,14 @@ class Platform:
 
         return posts
 
-    def populateComments(self, cData):
+    def populateComments(self, cData, tID):
         comments = {}
 
         for cID in cData:
             entry = cData[cID]
 
             id = cID
+            gID = tID + id
             author = entry["author"]
             content = entry["content"]
             upvotes = entry["votes"][0]
@@ -75,23 +76,24 @@ class Platform:
             replies = entry["replies"][1]
 
             if hasReplies:
-                replies = self.populateReplies(replies, id)
-                comment = Comment(id, author, content, upvotes, downvotes, hasReplies, replies)
+                replies = self.populateReplies(replies, id, gID)
+                comment = Comment(id, gID, author, content, upvotes, downvotes, hasReplies, replies)
             else:
-                comment = Comment(id, author, content, upvotes, downvotes)
+                comment = Comment(id, gID, author, content, upvotes, downvotes)
 
             comments[cID] = comment
 
         return comments 
 
 
-    def populateReplies(self, rData, parentID):
+    def populateReplies(self, rData, parentID, tID):
         replies = {}
 
         for rID in rData:
             entry = rData[rID]
 
             id = rID
+            gID = tID + id
             author = entry["author"]
             content = entry["content"]
             upvotes = entry["votes"][0]
@@ -104,9 +106,9 @@ class Platform:
 
             if hasReplies:
                 replies = self.populateReplies(replies, id)
-                reply = Comment(id, author, content, upvotes, downvotes, isReply, parentID, hasReplies, replies)
+                reply = Comment(id, gID, author, content, upvotes, downvotes, isReply, parentID, hasReplies, replies)
             else:
-                reply = Comment(id, author, content, upvotes, downvotes, isReply, parentID)
+                reply = Comment(id, gID, author, content, upvotes, downvotes, isReply, parentID)
 
             replies[rID] = reply
 

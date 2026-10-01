@@ -6,14 +6,6 @@ replies = {"1": "G123P12345R123456R789012"}
 # Dummy environment set up for testing
 env = Platform(pData="Storage/Testing/data.json", pUsers="Storage/Testing/users.json")
 
-test = env.communities["G123"].posts
+test = env.communities["G123"].posts["P12345"].replies["R123456"].gID
 
 print(test)
-
-post = env.createPost("G123", "U123456", "New post", "new post content")
-
-print(test)
-print(test[post].gID)
-
-post = env.createReply
-

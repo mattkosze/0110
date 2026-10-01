@@ -19,8 +19,9 @@ class Post:
         self.replies = replies
 
 class Comment:
-    def __init__(self, id, author, content, upvotes, downvotes, hasReplies=False, replies={}, isReply=False, parentID=-1):
+    def __init__(self, id, gID, author, content, upvotes, downvotes, hasReplies=False, replies={}, isReply=False, parentID=-1):
         self.id = id
+        self.gID = gID
         self.author = author
         self.content = content
         self.upvotes = upvotes
