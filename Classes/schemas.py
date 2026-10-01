@@ -8,14 +8,14 @@ class Community:
          self.members = members # set
 
 class Post:
-    def __init__(self, id, author, title, content, upvotes=0, downvotes=0, comments={}):
+    def __init__(self, id, author, title, content, upvotes=0, downvotes=0, replies={}):
         self.id = id
         self.author = author
         self.title = title
         self.content = content
         self.upvotes = upvotes
         self.downvotes = downvotes
-        self.comments = comments
+        self.replies = replies
 
 class Comment:
     def __init__(self, id, author, content, upvotes, downvotes, hasReplies=False, replies={}, isReply=False, parentID=-1):

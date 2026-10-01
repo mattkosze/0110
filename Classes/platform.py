@@ -50,9 +50,9 @@ class Platform:
             content = entry["content"]
             upvotes = entry["votes"][0]
             downvotes = entry["votes"][1]
-            comments = self.populateComments(entry["comments"][1])
+            replies = self.populateComments(entry["replies"][1])
 
-            post = Post(id, author, title, content, upvotes, downvotes, comments)
+            post = Post(id, author, title, content, upvotes, downvotes, replies)
 
             posts[pID] = post
 
@@ -168,16 +168,24 @@ class Platform:
             if id not in self.communities:
                 break
 
-    # Helper function to get to selected reply level
+    # Helper function to get a given content ID
     def traverseTo(self, gID, rAccess=None):
+        if len(gID) == 0:
+            return rAccess
+
         if gID[0] == "R":
-            if len(gID) > 6:
-                locate = rAccess.replies
-                traverse
+            locate = rAccess.replies[gID[:7]]
+            accessPoint = self.traverseTo(gID[7:], locate)
         elif gID[0] == "P":
-            pass
+            locate = rAccess.posts[gID[:6]]
+            accessPoint = self.traverseTo(gID[6:], locate)
+        elif gID[0] == "G":
+            locate = self.communities[gID[:4]]
+            accessPoint = self.traverseTo(gID[4:], locate)
         else:
-            pass
+            raise RuntimeError
+
+        return accessPoint
         
 # GID: G123P12345R123456R789012
  

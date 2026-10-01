@@ -36,7 +36,7 @@ class Simulant(Profile):
             groupID = gID[:4]
             postID = gID[4:10]
 
-            comments = self.community[groupID].posts[postID].comments
+            comments = self.community[groupID].posts[postID].replies
 
             # Gets the reply ID
             lID = gID[10:]

@@ -12,4 +12,6 @@ print(stuff)
 
 env.createPost("G123", "U123456", "New post", "new post content")
 
-print(stuff)
+contentTest = env.traverseTo("G123P12345R123456R789012").content
+
+print(contentTest)

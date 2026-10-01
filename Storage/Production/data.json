@@ -8,7 +8,7 @@
                 "title": "POST TITLE", 
                 "content": "POST CONTENT",
                 "votes": [],
-                "comments": [true , {
+                "replies": [true , {
                     "COMMENTID": {
                             "author": 1234,
                             "content": "COMMENT",
