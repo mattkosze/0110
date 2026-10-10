@@ -7,24 +7,22 @@
                 "author": 1234,
                 "title": "POST TITLE", 
                 "content": "POST CONTENT",
-                "votes": [],
-                "replies": [true , {
+                "votes": [0, 0],
+                "replies": {
                     "COMMENTID": {
-                            "author": 1234,
-                            "content": "COMMENT",
-                            "votes": [],
-                            "replies": [true, {
-                                "REPLYID": {
-                                    "author": 1,
-                                    "content": "COMMENT",
-                                    "votes": [],
-                                    "replies": [false, {}]
-                                    }
-                                }
-                            ]
+                        "author": 1234,
+                        "content": "COMMENT",
+                        "votes": [0, 0],
+                        "replies": {
+                            "REPLYID": {
+                                "author": 1,
+                                "content": "COMMENT",
+                                "votes": [0, 0],
+                                "replies": {}
+                            }
                         }
-                    } 
-                ]
+                    }
+                } 
             }
         },
         "members": ["a", "b", "c", "d"]

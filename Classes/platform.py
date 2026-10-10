@@ -122,6 +122,8 @@ class Platform:
 
         self.communities[id] = community
 
+        return id
+
     # Handles post creation within a community
     def createPost(self, cID, aID, title, content):
         # Generate post ID
@@ -138,22 +140,10 @@ class Platform:
 
         return gID
 
-    # GID: G123P12345R123456
-    # with R789012
-
     # Handles reply creation within a post or reply
     def createReply(self, rID, aID, content):
         # Access top level comment being replied to
         replyTo = self.traverseTo(rID)
-
-        parentType = replyTo.id
-        if parentType[0] == "P":
-            isReply = False
-        elif parentType[0] == "R":
-            isReply = True
-        else: 
-            print("Replying to something unrepliable")
-            raise RuntimeError 
 
         # Generate reply ID, which varies for comments versus replies
         while True:
@@ -168,7 +158,9 @@ class Platform:
 
         replyTo.replies[id] = reply
 
-    # Helper function to access a given global id
+        return gID
+
+    # Helper function to access a given global id (of form G123P12345R123456R789012)
     def traverseTo(self, gID, rAccess=None):
         if len(gID) == 0:
             return rAccess
@@ -186,16 +178,12 @@ class Platform:
             raise RuntimeError
 
         return accessPoint
-        
-# GID: G123P12345R123456R789012
- 
+         
     # <----------------- Shutdown functions   ----------------->
-    # LEAVING THIS FOR LAST, SHUTDOWN FUNCTIONS DEPEND ON ALL PREVIOUS INFO
-
-    # Saves data to corresponding json files 
+    # Saves website data to JSON file
     def exportWebsite(self):
         pass
     
-    # Orchastrate platform saving and shutdown
-    def shutdown(self):
+    # Saves user data to JSON file
+    def exportUsers(self):
         pass
