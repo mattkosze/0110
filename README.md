@@ -1,5 +1,5 @@
 # Simulating behaviour on social media
-This is a simulation project regarding modelling behaviour on social media platforms. t's meant to simulate individual user behaviour at a given point in time, and where simulants can join communities, and \{upvote, downvote, comment on, create new, ignore\} posts, or totally switch reddit communities at a given point in time.
+This is a simulation project regarding modelling behaviour on social media platforms. It's meant to simulate individual user behaviour at a given point in time, and where simulants can join communities, and \{upvote, downvote, comment on, create new, ignore\} posts, or totally switch reddit communities at a given point in time.
 
 ## Architecture 
 The system is broken down into three components: the platform architecture, the simulant architecture, and the testing overhead. This is then combined into the main running files which leverages all the components to run simulations.

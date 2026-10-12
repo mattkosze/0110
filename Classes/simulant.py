@@ -14,6 +14,10 @@ class Simulant(Profile):
 
         self.personalBio = personalBio
 
+        self.state = None
+
+        self.actionHistory = {}
+
     def loadContent(self, IDs):
         contents = {}
 
@@ -40,9 +44,3 @@ class Simulant(Profile):
             raise RuntimeError
 
         return accessPoint
-
-
-# GROUPID: G123
-# POSTID: P12345
-# REPLYID: R123456
-# GID: G123P12345R123456R789012

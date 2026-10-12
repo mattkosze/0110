@@ -28,7 +28,6 @@ class Tests:
 
         assert commObj.name == testName, "Name did not populate correctly"
         assert commObj.desc == testDesc, "Content did not populate correctly"
- 
 
     def addPost(self):
         if not self.loaded:
@@ -45,7 +44,6 @@ class Tests:
 
         assert postObj.title == testTitle, "Title did not populate correctly"
         assert postObj.content == testContent, "Content did not populate correctly"
-        
 
     def addReply(self):
         if not self.loaded:
@@ -74,7 +72,6 @@ class Tests:
 
         assert currUpvotes == (prevUpvotes + 1), "Upvotes not working correctly"
 
-
     def downvote(self):
         if not self.loaded:
             self.loadData()
@@ -87,6 +84,11 @@ class Tests:
         currDownvotes = voteObject.downvotes
 
         assert currDownvotes == (prevDownvotes - 1), "Downvotes not working correctly"
+
+    def fetchFeed(self):
+        currFeed = self.env.returnFeed(3)
+
+        assert len(currFeed) == 3, "Incorrect feed length"
 
     def shutdown(self):
         self.env.exportWebsite()
@@ -101,6 +103,7 @@ class Tests:
         self.addReply()
         self.upvote()
         self.downvote()
+        self.fetchFeed()
 
         self.shutdown()
 

@@ -9,6 +9,8 @@ class Platform:
         self.communities = {}
         # Platform users will be stored as set format containing user ids
         self.users = {}
+        # Stores a list of posts in system for returning a feed
+        self.postStore = {}
 
         # NOTE: May opt to make both necessary, as there's likely no situation in which these shouldn't be loaded
         if pData:
@@ -56,6 +58,7 @@ class Platform:
             post = Post(id, gID, author, title, content, upvotes, downvotes, replies)
 
             postList[pID] = post
+            self.postStore[gID] = post
 
         return postList
 
@@ -161,6 +164,7 @@ class Platform:
         return gID
 
     # Handles adding upvotes and downvotes to posts or replies
+    # TODO Add karma handling to modify record of associated user
     def addVote(self, gID, voteType):
         replyObj = self.traverseTo(gID)
 
@@ -190,8 +194,15 @@ class Platform:
             raise RuntimeError
 
         return accessPoint
+
+    # Returns a random post feed based on the viewSize
+    def returnFeed(self, viewSize):
+        # Chooses a random subset of post key, value pairs from global posts
+        selected = dict(random.sample(list(self.postStore.items()), viewSize))
+
+        return selected
          
-    # <----------------- Shutdown functions   ----------------->
+    # <----------------- Shutdown functions ----------------->
     # Saves website data to JSON file
     def exportWebsite(self):
         data = {}
