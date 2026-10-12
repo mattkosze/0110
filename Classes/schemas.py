@@ -37,3 +37,7 @@ class Profile:
         self.contributions = contributions
         self.posts = posts
         self.replies = replies
+
+class Action:
+    def __init__(self, aType):
+        pass
