@@ -1,22 +1,22 @@
 {
     "G123":{
-        "name": "GROUP NAME", 
-        "desc": "GROUP DESC",
+        "name": "Simulation Group", 
+        "desc": "This is a group about creating simulations of human behaviour. Please keep all content strictly regarding how to best simulate irrationality.",
         "posts": {
             "P12345": {
                 "author": 1234,
-                "title": "POST TITLE", 
-                "content": "POST CONTENT",
+                "title": "Aaru's doing it wrong", 
+                "content": "Aaru has a thesis that human behaviour can be simulated, and i disagree. I think you can have systems that act similar to how a human would act, but never prediction.",
                 "votes": [1, 2],
                 "replies": {
                     "R123456": {
                         "author": 1234,
-                        "content": "THIS IS A TOP LEVEL REPLY",
+                        "content": "You're totally wrong, what differentiates similarity in such a way where it can't bear representative weight of how people would act?",
                         "votes": [1, 3],
                         "replies": {
                             "R789012": {
                                 "author": 1234,
-                                "content": "THIS IS A LOWER LEVEL REPLY",
+                                "content": "Ur right",
                                 "votes": [1, 4],
                                 "replies": {}
                             }

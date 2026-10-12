@@ -1,0 +1,67 @@
+{
+    "G123": {
+        "name": "Simulation Group",
+        "desc": "This is a group about creating simulations of human behaviour. Please keep all content strictly regarding how to best simulate irrationality.",
+        "posts": {
+            "P12345": {
+                "author": 1234,
+                "title": "Aaru's doing it wrong",
+                "content": "Aaru has a thesis that human behaviour can be simulated, and i disagree. I think you can have systems that act similar to how a human would act, but never prediction.",
+                "votes": [
+                    2,
+                    1
+                ],
+                "replies": {
+                    "R123456": {
+                        "author": 1234,
+                        "content": "You're totally wrong, what differentiates similarity in such a way where it can't bear representative weight of how people would act?",
+                        "votes": [
+                            1,
+                            3
+                        ],
+                        "replies": {
+                            "R789012": {
+                                "author": 1234,
+                                "content": "Ur right",
+                                "votes": [
+                                    1,
+                                    4
+                                ],
+                                "replies": {}
+                            }
+                        }
+                    },
+                    "R390485": {
+                        "author": "1234",
+                        "content": "This is a test reply",
+                        "votes": [
+                            0,
+                            0
+                        ],
+                        "replies": {}
+                    }
+                }
+            },
+            "P53208": {
+                "author": "1234",
+                "title": "Post about fascinating simulation",
+                "content": "There's a lot to simulate.",
+                "votes": [
+                    0,
+                    0
+                ],
+                "replies": {}
+            }
+        },
+        "members": [
+            "U123456",
+            "U789012"
+        ]
+    },
+    "G247": {
+        "name": "Simulation community",
+        "desc": "Testing simulation description",
+        "posts": {},
+        "members": []
+    }
+}

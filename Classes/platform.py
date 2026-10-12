@@ -160,6 +160,18 @@ class Platform:
 
         return gID
 
+    # Handles adding upvotes and downvotes to posts or replies
+    def addVote(self, gID, voteType):
+        replyObj = self.traverseTo(gID)
+
+        #voteType == 0 for upvotes, 1 for downvotes
+        if voteType == 0:
+            replyObj.upvotes += 1
+        elif voteType == 1:
+            replyObj.downvotes -= 1
+        else:
+            raise RuntimeError
+
     # Helper function to access a given global id (of form G123P12345R123456R789012)
     def traverseTo(self, gID, rAccess=None):
         if len(gID) == 0:
@@ -182,8 +194,56 @@ class Platform:
     # <----------------- Shutdown functions   ----------------->
     # Saves website data to JSON file
     def exportWebsite(self):
-        pass
+        data = {}
+
+        for cID, community in self.communities.items():
+            posts = {}
+            for pID, post in community.posts.items():
+                posts[pID] = {
+                    "author": post.author,
+                    "title": post.title,
+                    "content": post.content,
+                    "votes": [post.upvotes, post.downvotes],
+                    "replies": self._exportReplies(post.replies),
+                }
+
+            data[cID] = {
+                "name": community.name,
+                "desc": community.desc,
+                "posts": posts,
+                "members": sorted(community.members),
+            }
+
+        with open("./Storage/Export/data.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+    def _exportReplies(self, replies):
+        data = {}
+
+        for rID, reply in replies.items():
+            data[rID] = {
+                "author": reply.author,
+                "content": reply.content,
+                "votes": [reply.upvotes, reply.downvotes],
+                "replies": self._exportReplies(reply.replies),
+            }
+
+        return data
     
     # Saves user data to JSON file
     def exportUsers(self):
-        pass
+        data = {}
+
+        for uID, user in self.users.items():
+            data[uID] = {
+                "name": user.name,
+                "bio": user.bio,
+                "karma": user.karma,
+                "contributions": user.contributions,
+                "posts": sorted(user.posts),
+                "replies": sorted(user.replies),
+                "personalBio": user.personalBio,
+            }
+
+        with open("./Storage/Export/users.json", "w") as file:
+            json.dump(data, file, indent=4)

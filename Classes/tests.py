@@ -61,6 +61,36 @@ class Tests:
 
         assert replyObj.content == testContent, "Content did not populate correctly"
 
+    def upvote(self):
+        if not self.loaded:
+            self.loadData()
+
+        gID = "G123P12345"
+        voteObject = self.env.traverseTo(gID)
+
+        prevUpvotes = voteObject.upvotes
+        self.env.addVote(gID, 0)
+        currUpvotes = voteObject.upvotes
+
+        assert currUpvotes == (prevUpvotes + 1), "Upvotes not working correctly"
+
+
+    def downvote(self):
+        if not self.loaded:
+            self.loadData()
+
+        gID = "G123P12345"
+        voteObject = self.env.traverseTo(gID)
+
+        prevDownvotes = voteObject.downvotes
+        self.env.addVote(gID, 1)
+        currDownvotes = voteObject.downvotes
+
+        assert currDownvotes == (prevDownvotes - 1), "Downvotes not working correctly"
+
+    def shutdown(self):
+        self.env.exportWebsite()
+        self.env.exportUsers()
 
     def runSuite(self):
         if not self.loaded:
@@ -69,9 +99,10 @@ class Tests:
         self.addCommunity()
         self.addPost()
         self.addReply()
+        self.upvote()
+        self.downvote()
 
-        self.exportWebsite()
-        self.exportUsers()
+        self.shutdown()
 
         print("Test suite completed with no errors")
         
