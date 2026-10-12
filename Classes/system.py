@@ -1,7 +1,7 @@
 from Classes.platform import Platform
 
 class System:
-    def __init__(self, pData, pUsers, simLength, turnLength, timeLength, viewSize):
+    def __init__(self, pData, pUsers, turnLength, timeLength, viewSize):
         # <-- INTERNAL -->
         # Initialize the platform object for the simulation
         self.platform = Platform(pData, pUsers)
