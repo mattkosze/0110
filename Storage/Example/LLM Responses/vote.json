@@ -1,0 +1,5 @@
+{
+    "aType": "vote",
+    "vOn": "post/comment index",
+    "vType": "0 for upvote, 1 for downvote"
+}

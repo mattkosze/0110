@@ -1,8 +1,11 @@
-from Classes.tests import Tests
+from Classes.tests import PlatformTests, SystemTests, SimulantTests
 
 # Dummy environment set up for testing
 
-testbed = Tests()
+platformTests = PlatformTests()
 
-testbed.runSuite()
+platformTests.runSuite()
 
+systemTests = SystemTests()
+
+systemTests.runSuite()

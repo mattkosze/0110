@@ -38,6 +38,10 @@ class Profile:
         self.posts = posts
         self.replies = replies
 
-class Action:
-    def __init__(self, aType):
-        pass
+class State:
+    def __init__(self):
+        self.sType = None
+        self.sLoc = None
+        self.currState = None
+        self.prevState = None
+        self.actionHistory = []

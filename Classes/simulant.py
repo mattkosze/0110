@@ -1,22 +1,17 @@
-from Classes.schemas import Profile
+from Classes.schemas import Profile, State
 
 class Simulant(Profile):
     def __init__(self, communities, id, name, bio, karma, contributions, posts, replies, personalBio):
         self.communities = communities
-
-        posts = set(posts)
-        replies = set(replies)
         
-        postContents = self.loadContent(posts)
-        replyContents = self.loadContent(replies)
+        postContents = self.loadContent(set(posts))
+        replyContents = self.loadContent(set(replies))
         
         super().__init__(id, name, bio, karma, contributions, postContents, replyContents)
 
         self.personalBio = personalBio
 
-        self.state = None
-
-        self.actionHistory = {}
+        self.state = State()
 
     def loadContent(self, IDs):
         contents = {}

@@ -1,6 +1,5 @@
 {
     "aType": "community",
     "cName": "Group name",
-    "cDesc": "Group description",
-    "reason" : "I did this because x, y, z"
+    "cDesc": "Group description"
 }

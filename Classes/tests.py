@@ -1,17 +1,19 @@
 from Classes.platform import Platform
+from Classes.system import System
+from Classes.simulant import Simulant
 
-class Tests:
+class PlatformTests:
     def __init__(self):
         self.env = Platform()
         self.loaded = False
 
     # Testing loading data 
     def loadData(self):
-        postData = "./Storage/Testing/data.json"
-        userData = "./Storage/Testing/users.json"
+        pData = "./Storage/Testing/data.json"
+        pUsers = "./Storage/Testing/users.json"
 
-        self.env.populateWebsite(postData)
-        self.env.populateUsers(userData)      
+        self.env.populateWebsite(pData)
+        self.env.populateUsers(pUsers)      
 
         self.loaded = True
 
@@ -107,5 +109,36 @@ class Tests:
 
         self.shutdown()
 
-        print("Test suite completed with no errors")
+        print("Platform test suite completed with no errors")
+
+class SystemTests:
+    def __init__(self):
+        pData = "./Storage/Testing/data.json"
+        pUsers = "./Storage/Testing/users.json"
+        turnLength = 30
+        timeLength = 6
+        viewSize = 3
+
+        self.system = System(pData, pUsers, turnLength, timeLength, viewSize)
+
+    def userInitialization(self):
+        self.system.initializeUserStates()
+
+        users = self.system.platform.users
         
+        for uID in users:
+            userObj = users[uID]
+            stateObj = userObj.state
+
+            assert stateObj.currState is not None and stateObj.prevState is not None
+
+    # Will need a whole additional test base here as system built out
+
+    def runSuite(self):
+        self.userInitialization()
+
+        print("System test suite completed with no errors")
+
+class SimulantTests:
+    def __init__(self):
+        pass
