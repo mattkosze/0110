@@ -1,5 +1,5 @@
 {
     "aType": "navigate",
-    "navType": "click",
+    "nType": "click",
     "on": "0, 1, 2"
 }

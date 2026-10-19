@@ -88,9 +88,10 @@ class PlatformTests:
         assert currDownvotes == (prevDownvotes - 1), "Downvotes not working correctly"
 
     def fetchFeed(self):
-        currFeed = self.env.returnFeed(3)
+        currFeed = self.env.returnFeed()
 
-        assert len(currFeed) == 3, "Incorrect feed length"
+        assert len(currFeed) == len(self.env.postStore)
+        assert len(set(currFeed)) == len(currFeed)
 
     def shutdown(self):
         self.env.exportWebsite()
@@ -122,7 +123,7 @@ class SystemTests:
         self.system = System(pData, pUsers, turnLength, timeLength, viewSize)
 
     def userInitialization(self):
-        self.system.initializeUserStates()
+        self.system._initializeUserStates()
 
         users = self.system.platform.users
         

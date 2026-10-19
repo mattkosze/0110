@@ -196,11 +196,12 @@ class Platform:
         return accessPoint
 
     # Returns a random post feed based on the viewSize
-    def returnFeed(self, viewSize):
+    def returnFeed(self):
         # Chooses a random subset of post key, value pairs from global posts
-        selected = dict(random.sample(list(self.postStore.items()), viewSize))
+        feed = list(self.postStore.items())
+        random.shuffle(feed)
 
-        return selected
+        return dict(feed)
          
     # <----------------- Shutdown functions ----------------->
     # Saves website data to JSON file

@@ -1,5 +1,5 @@
 {
     "aType": "reply",
     "rID": "id of that being replied to",
-    "content": "text content"
+    "rContent": "text content"
 }

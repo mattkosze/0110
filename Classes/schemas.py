@@ -44,4 +44,40 @@ class State:
         self.sLoc = None
         self.currState = None
         self.prevState = None
+        self.feed = None
+        self.feedOffset = 0
         self.actionHistory = []
+
+class Action:
+    def __init__(self, aType):
+        self.aType = aType
+
+class navAction(Action):
+    def __init__(self, nType):
+        super().__init__("navigate")
+        self.nType = nType
+
+class comAction(Action):
+    def __init__(self, cName, cDesc):
+        super().__init__("community")
+        self.cName = cName
+        self.cDesc = cDesc
+
+class posAction(Action):
+    def __init__(self, gID, pTitle, pContent):
+        super().__init__("post")
+        self.gID = gID
+        self.pTitle = pTitle
+        self.pContent = pContent
+
+class repAction(Action):
+    def __init__(self, gID, rContent):
+        super().__init__("reply")
+        self.gID = gID
+        self.rContent = rContent
+
+class votAction(Action):
+    def __init__(self, vOn, vType):
+        super().__init__("vote")
+        self.vOn = vOn
+        self.vType = vType
