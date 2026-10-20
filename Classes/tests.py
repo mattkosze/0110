@@ -124,6 +124,10 @@ class SystemTests:
 
         self.system = System(pData, pUsers, turnLength, timeLength, viewSize)
 
+        self.users = self.system.platform.users
+        self.testUserKey = list(self.users.keys())[0]
+        self.testUser = self.users[self.testUserKey]
+
     def userInitialization(self):
         self.system._initializeUserStates()
 
@@ -136,31 +140,38 @@ class SystemTests:
             assert stateObj.currState is not None and stateObj.prevState is not None
 
     def navIgnore(self):
-        # Select the first user
-        users = self.system.platform.users
-        userKeys = list(users.keys())
-        testUser = userKeys[0]
-
         # Copy the initial user data
-        initUser = copy.deepcopy(users[testUser])
+        initUser = copy.deepcopy(self.testUser)
 
         # Complete ignore action
-        self.system._handleNavIgnore(testUser)
+        self.system._handleNavIgnore(self.testUserKey)
 
-        userAccess = users[testUser].state
-
+        userAccess = self.testUser.state
         # Test state updates
         assert (userAccess.currState.keys() == initUser.state.currState.keys()), "States not the same"
         assert (len(userAccess.actionHistory) == (len(initUser.state.actionHistory)+1)), "Length not updated with additional action"
-        assert (userAccess.actionHistory[-1].nType == "ignore"), "Added action not an ignore"
+        assert (userAccess.actionHistory[-1].nType == "ignore"), "Last action not an ignore"
 
     def navFeed(self):
         pass
+
+    def navScroll(self):
+        # Copy the initial user data
+        initUser = copy.deepcopy(self.testUser)
+
+        # Complete scroll action
+        self.system._handleNavScroll(self.testUserKey)
+        
+        userAccess = self.testUser.state
+        # Test state updates
+        assert (initUser.state.currState.keys() != userAccess.currState.keys()), "Feed not updated to reflect scroll"
+        assert (userAccess.actionHistory[-1].nType == "scroll"), "Last action not a scroll"
 
     def runSuite(self):
         self.userInitialization()
         self.navIgnore()
         self.navFeed()
+        self.navScroll()
 
 
         print("System test suite completed with no errors")
