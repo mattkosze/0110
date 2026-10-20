@@ -31,7 +31,7 @@
                             }
                         }
                     },
-                    "R531198": {
+                    "R113394": {
                         "author": "1234",
                         "content": "This is a test reply",
                         "votes": [
@@ -82,7 +82,7 @@
                 ],
                 "replies": {}
             },
-            "P18291": {
+            "P19167": {
                 "author": "1234",
                 "title": "Post about fascinating simulation",
                 "content": "There's a lot to simulate.",
@@ -98,7 +98,7 @@
             "U789012"
         ]
     },
-    "G635": {
+    "G162": {
         "name": "Simulation community",
         "desc": "Testing simulation description",
         "posts": {},

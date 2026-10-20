@@ -48,7 +48,6 @@ class System:
         feed = self.platform.returnFeed()
 
         stateObj.sType = "f"
-        stateObj.sLoc = "i"
         stateObj.feed = feed
         stateObj.feedOffset = 0
         stateObj.currState = self._getFeedPage(feed)
@@ -56,7 +55,6 @@ class System:
     def _captureNavigationState(self, stateObj):
         return {
             "sType": stateObj.sType,
-            "sLoc": stateObj.sLoc,
             "currState": copy.deepcopy(stateObj.currState),
             "feed": copy.deepcopy(stateObj.feed),
             "feedOffset": stateObj.feedOffset,
@@ -67,7 +65,6 @@ class System:
 
     def _restoreNavigationState(self, stateObj, savedState):
         stateObj.sType = savedState["sType"]
-        stateObj.sLoc = savedState["sLoc"]
         stateObj.currState = savedState["currState"]
         stateObj.feed = savedState["feed"]
         stateObj.feedOffset = savedState["feedOffset"]
@@ -143,7 +140,27 @@ class System:
             stateObj.actionHistory.append(navAction("scroll"))
 
     def _handleNavClick(self, response, uID):
-        pass
+        stateObj = self.platform.users[uID].state
+
+        if stateObj.sType != "f":
+            raise RuntimeError
+
+        try:
+            selectedIndex = int(response["on"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise RuntimeError("Invalid click index") from exc
+
+        pageItems = list(stateObj.currState.items())
+        if selectedIndex < 0 or selectedIndex >= len(pageItems):
+            raise RuntimeError("Click index is outside the current feed page")
+
+        selectedID, selectedPost = pageItems[selectedIndex]
+        self._saveNavigationState(stateObj)
+
+        stateObj.prevState = copy.deepcopy(stateObj.currState)
+        stateObj.sType = "p"
+        stateObj.currState = {selectedID: selectedPost}
+        stateObj.actionHistory.append(navAction("click"))
 
     def _handleNavBack(self, uID):
         userObj = self.platform.users[uID]

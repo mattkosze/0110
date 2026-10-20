@@ -187,12 +187,51 @@ class SystemTests:
         self.system._handleNavBack(self.testUserKey)
         assert len(userAccess.actionHistory) == historyLength, "Empty back navigation was not a no-op"
 
+    def navClick(self):
+        userAccess = self.testUser.state
+        feedPage = copy.deepcopy(userAccess.currState)
+        feedOffset = userAccess.feedOffset
+        feedItems = list(feedPage.items())
+
+        for selectedIndex in range(min(3, len(feedItems))):
+            response = {
+                "aType": "navigate",
+                "nType": "click",
+                "on": str(selectedIndex),
+            }
+
+            self.system._handleNavClick(response, self.testUserKey)
+
+            selectedID, selectedPost = feedItems[selectedIndex]
+            assert userAccess.sType == "p", "Click did not open a post page"
+            assert list(userAccess.currState) == [selectedID], "Post page has the wrong item"
+            assert userAccess.currState[selectedID].gID == selectedPost.gID, "Post page is incorrect"
+            assert userAccess.actionHistory[-1].nType == "click", "Click was not recorded"
+
+            self.system._handleNavBack(self.testUserKey)
+            assert userAccess.sType == "f", "Back did not restore the feed state"
+            assert userAccess.currState.keys() == feedPage.keys(), "Back did not restore the feed page"
+            assert userAccess.feedOffset == feedOffset, "Back did not restore the feed offset"
+
+        invalidResponse = {
+            "aType": "navigate",
+            "nType": "click",
+            "on": str(len(feedItems)),
+        }
+
+        try:
+            self.system._handleNavClick(invalidResponse, self.testUserKey)
+            assert False, "Out-of-range click did not raise an error"
+        except RuntimeError as exc:
+            assert "outside" in str(exc)
+
     def runSuite(self):
         self.userInitialization()
         self.navIgnore()
         self.navFeed()
         self.navScroll()
         self.navBack()
+        self.navClick()
 
 
         print("System test suite completed with no errors")
