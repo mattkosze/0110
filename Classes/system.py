@@ -89,7 +89,7 @@ class System:
         userObj = self.platform.users[uID]
         actionObj = navAction("ignore")
 
-        userObj.state.actionHistory += actionObj
+        userObj.state.actionHistory += [actionObj]
 
     # Handles a feed nav, where user returns to feed
     def _handleNavFeed(self, uID):
@@ -101,7 +101,7 @@ class System:
         self._setFeedState(stateObj)
 
         stateObj.prevState = prevState
-        stateObj.actionHistory += actionObj
+        stateObj.actionHistory += [actionObj]
 
     # Handles scrolling, currently limited to actions on the feed page
     def _handleNavScroll(self, uID):

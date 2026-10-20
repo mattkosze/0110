@@ -1,3 +1,5 @@
+import copy
+
 from Classes.platform import Platform
 from Classes.system import System
 from Classes.simulant import Simulant
@@ -133,10 +135,33 @@ class SystemTests:
 
             assert stateObj.currState is not None and stateObj.prevState is not None
 
-    # Will need a whole additional test base here as system built out
+    def navIgnore(self):
+        # Select the first user
+        users = self.system.platform.users
+        userKeys = list(users.keys())
+        testUser = userKeys[0]
+
+        # Copy the initial user data
+        initUser = copy.deepcopy(users[testUser])
+
+        # Complete ignore action
+        self.system._handleNavIgnore(testUser)
+
+        userAccess = users[testUser].state
+
+        # Test state updates
+        assert (userAccess.currState.keys() == initUser.state.currState.keys()), "States not the same"
+        assert (len(userAccess.actionHistory) == (len(initUser.state.actionHistory)+1)), "Length not updated with additional action"
+        assert (userAccess.actionHistory[-1].nType == "ignore"), "Added action not an ignore"
+
+    def navFeed(self):
+        pass
 
     def runSuite(self):
         self.userInitialization()
+        self.navIgnore()
+        self.navFeed()
+
 
         print("System test suite completed with no errors")
 

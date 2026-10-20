@@ -31,7 +31,7 @@
                             }
                         }
                     },
-                    "R592598": {
+                    "R561682": {
                         "author": "1234",
                         "content": "This is a test reply",
                         "votes": [
@@ -52,6 +52,26 @@
                 ],
                 "replies": {}
             },
+            "P28401": {
+                "author": 1234,
+                "title": "More",
+                "content": "But more?",
+                "votes": [
+                    3,
+                    5
+                ],
+                "replies": {}
+            },
+            "P22332": {
+                "author": 1234,
+                "title": "Another random post",
+                "content": "More content?",
+                "votes": [
+                    3,
+                    5
+                ],
+                "replies": {}
+            },
             "P27181": {
                 "author": 3812,
                 "title": "This is a new community",
@@ -62,7 +82,7 @@
                 ],
                 "replies": {}
             },
-            "P20095": {
+            "P96058": {
                 "author": "1234",
                 "title": "Post about fascinating simulation",
                 "content": "There's a lot to simulate.",
@@ -78,7 +98,7 @@
             "U789012"
         ]
     },
-    "G971": {
+    "G924": {
         "name": "Simulation community",
         "desc": "Testing simulation description",
         "posts": {},

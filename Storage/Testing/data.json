@@ -29,6 +29,18 @@
                 "content": "What's Simile doing differently?",
                 "votes": [3, 5],
                 "replies": {} 
+            }, "P28401": {
+                "author": 1234,
+                "title": "More", 
+                "content": "But more?",
+                "votes": [3, 5],
+                "replies": {} 
+            }, "P22332": {
+                "author": 1234,
+                "title": "Another random post", 
+                "content": "More content?",
+                "votes": [3, 5],
+                "replies": {} 
             }, "P27181": {
                 "author": 3812,
                 "title": "This is a new community", 
@@ -36,6 +48,7 @@
                 "votes": [10, 1],
                 "replies": {}
             }
+
         },
         "members": ["U123456", "U789012"]
     }
