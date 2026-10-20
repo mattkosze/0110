@@ -167,11 +167,32 @@ class SystemTests:
         assert (initUser.state.currState.keys() != userAccess.currState.keys()), "Feed not updated to reflect scroll"
         assert (userAccess.actionHistory[-1].nType == "scroll"), "Last action not a scroll"
 
+    def navBack(self):
+        userAccess = self.testUser.state
+        currentPage = copy.deepcopy(userAccess.currState)
+        currentOffset = userAccess.feedOffset
+        historyLength = len(userAccess.actionHistory)
+
+        self.system._handleNavBack(self.testUserKey)
+
+        assert userAccess.currState.keys() != currentPage.keys(), "Back did not restore the previous page"
+        assert userAccess.feedOffset < currentOffset, "Back did not restore the previous feed offset"
+        assert len(userAccess.actionHistory) == historyLength + 1, "Back action was not recorded"
+        assert userAccess.actionHistory[-1].nType == "back", "Last action was not back"
+
+        self.system._handleNavBack(self.testUserKey)
+        assert userAccess.feedOffset == 0, "Back did not restore the initial feed page"
+
+        historyLength = len(userAccess.actionHistory)
+        self.system._handleNavBack(self.testUserKey)
+        assert len(userAccess.actionHistory) == historyLength, "Empty back navigation was not a no-op"
+
     def runSuite(self):
         self.userInitialization()
         self.navIgnore()
         self.navFeed()
         self.navScroll()
+        self.navBack()
 
 
         print("System test suite completed with no errors")

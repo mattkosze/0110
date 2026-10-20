@@ -53,6 +53,25 @@ class System:
         stateObj.feedOffset = 0
         stateObj.currState = self._getFeedPage(feed)
 
+    def _captureNavigationState(self, stateObj):
+        return {
+            "sType": stateObj.sType,
+            "sLoc": stateObj.sLoc,
+            "currState": copy.deepcopy(stateObj.currState),
+            "feed": copy.deepcopy(stateObj.feed),
+            "feedOffset": stateObj.feedOffset,
+        }
+
+    def _saveNavigationState(self, stateObj):
+        stateObj.navigationHistory.append(self._captureNavigationState(stateObj))
+
+    def _restoreNavigationState(self, stateObj, savedState):
+        stateObj.sType = savedState["sType"]
+        stateObj.sLoc = savedState["sLoc"]
+        stateObj.currState = savedState["currState"]
+        stateObj.feed = savedState["feed"]
+        stateObj.feedOffset = savedState["feedOffset"]
+
     def _getFeedPage(self, feed, offset=0):
         feedItems = list(feed.items())
 
@@ -98,6 +117,7 @@ class System:
         prevState = stateObj.currState.copy()
         actionObj = navAction("feed")
 
+        self._saveNavigationState(stateObj)
         self._setFeedState(stateObj)
 
         stateObj.prevState = prevState
@@ -116,13 +136,28 @@ class System:
             if not nextPage:
                 return
 
+            self._saveNavigationState(stateObj)
             stateObj.prevState = stateObj.currState.copy()
             stateObj.currState = nextPage
             stateObj.feedOffset = nextOffset
             stateObj.actionHistory.append(navAction("scroll"))
 
-    def _handleNavClick(self, uID):
+    def _handleNavClick(self, response, uID):
         pass
+
+    def _handleNavBack(self, uID):
+        userObj = self.platform.users[uID]
+        stateObj = userObj.state
+
+        if not stateObj.navigationHistory:
+            return
+
+        currentState = self._captureNavigationState(stateObj)
+        previousState = stateObj.navigationHistory.pop()
+
+        self._restoreNavigationState(stateObj, previousState)
+        stateObj.prevState = currentState["currState"]
+        stateObj.actionHistory.append(navAction("back"))
 
     # Adds an action to the completed log
     def _handleCreateCommunity(self, response, uID):
@@ -155,15 +190,6 @@ class System:
         vType = int(response["vType"])
 
         self.platform.addVote(vOn, vType)
-
-    def _handleNavBack(self, response, uID):
-        # Need to return to previous state, therefore need to store current & prev state.
-        # Will not support consecutive back actions.
-        pass
-
-    def _handleNavClick(self, response, uID):
-        # Need to have next element
-        pass
 
     # Function to record actions in the global log
     def _recordAction(self, uID):

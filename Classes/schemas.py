@@ -47,6 +47,7 @@ class State:
         self.feed = None
         self.feedOffset = 0
         self.actionHistory = []
+        self.navigationHistory = []
 
 class Action:
     def __init__(self, aType):
