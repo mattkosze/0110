@@ -141,6 +141,8 @@ class Platform:
 
         self.communities[cID].posts[id] = post
 
+        self.postStore[gID] = post
+
         return gID
 
     # Handles reply creation within a post or reply
@@ -172,7 +174,7 @@ class Platform:
         if voteType == 0:
             replyObj.upvotes += 1
         elif voteType == 1:
-            replyObj.downvotes -= 1
+            replyObj.downvotes += 1
         else:
             raise RuntimeError
 

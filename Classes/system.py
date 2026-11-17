@@ -78,13 +78,13 @@ class System:
     def _process(self, response, uID):
         action = response["aType"]
         if action == "community":
-            self._handleCreateCommunity(response)
-        if action == "post":
-            self._handleCreatePost(response)
+            self._handleCreateCommunity(response, uID)
+        elif action == "post":
+            self._handleCreatePost(response, uID)
         elif action == "reply":
-            self._handleCreateReply(response)
+            self._handleCreateReply(response, uID)
         elif action == "vote":
-            self._handleCreateVote(response)
+            self._handleCreateVote(response, uID)
         elif action == "navigate":
             type = response["nType"]
             if type == "ignore":
@@ -178,35 +178,40 @@ class System:
 
     # Adds an action to the completed log
     def _handleCreateCommunity(self, response, uID):
-        cName = response["cName"]
-        cDesc = response["cDesc"]
-
-        self.platform.createCommunity(cName, cDesc)
+        # NOTE: Omitting community creation functionality for now, as there's no dedicated community viewing function. To be added in future release.
+        pass
 
     def _handleCreatePost(self, response, uID):
+        userObj = self.platform.users[uID]
+        stateObj = userObj.state
+
         cID = response["cID"]
         pTitle = response["pTitle"]
         pContent = response["pContent"]
-        aID = None
+        gID = self.platform.createPost(cID, uID, pTitle, pContent)
 
-        # NOTE: STORE GID IN ACTION ID
+        stateObj.actionHistory.append(posAction(gID, pTitle, pContent))
 
-        self.platform.createPost(cID, aID, pTitle, pContent)
 
     def _handleCreateReply(self, response, uID):
+        userObj = self.platform.users[uID]
+        stateObj = userObj.state
+
         rID = response["rID"]
         rContent = response["rContent"]
-        aID = None
+        gID = self.platform.createReply(rID, uID, rContent)
 
-        self.platform.createReply(rID, aID, rContent)
-
-        # NOTE: STORE GID IN ACTION ID
+        stateObj.actionHistory.append(repAction(gID, rContent))
 
     def _handleCreateVote(self, response, uID):
+        userObj = self.platform.users[uID]
+        stateObj = userObj.state
+
         vOn = response["vOn"]
         vType = int(response["vType"])
-
         self.platform.addVote(vOn, vType)
+
+        stateObj.actionHistory.append(votAction(vOn, vType))
 
     # Function to record actions in the global log
     def _recordAction(self, uID):

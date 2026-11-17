@@ -9,7 +9,7 @@
                 "content": "Aaru has a thesis that human behaviour can be simulated, and i disagree. I think you can have systems that act similar to how a human would act, but never prediction.",
                 "votes": [
                     2,
-                    1
+                    3
                 ],
                 "replies": {
                     "R123456": {
@@ -31,7 +31,7 @@
                             }
                         }
                     },
-                    "R113394": {
+                    "R779543": {
                         "author": "1234",
                         "content": "This is a test reply",
                         "votes": [
@@ -82,7 +82,7 @@
                 ],
                 "replies": {}
             },
-            "P19167": {
+            "P27513": {
                 "author": "1234",
                 "title": "Post about fascinating simulation",
                 "content": "There's a lot to simulate.",
@@ -98,7 +98,7 @@
             "U789012"
         ]
     },
-    "G162": {
+    "G870": {
         "name": "Simulation community",
         "desc": "Testing simulation description",
         "posts": {},

@@ -87,7 +87,7 @@ class PlatformTests:
         self.env.addVote(gID, 1)
         currDownvotes = voteObject.downvotes
 
-        assert currDownvotes == (prevDownvotes - 1), "Downvotes not working correctly"
+        assert currDownvotes == (prevDownvotes + 1), "Downvotes not working correctly"
 
     def fetchFeed(self):
         currFeed = self.env.returnFeed()
@@ -138,6 +138,76 @@ class SystemTests:
             stateObj = userObj.state
 
             assert stateObj.currState is not None and stateObj.prevState is not None
+
+    def createCommunity(self):
+        communityIDs = set(self.system.platform.communities)
+        actionHistoryLength = len(self.testUser.state.actionHistory)
+
+        self.system._handleCreateCommunity(
+            {
+                "aType": "community",
+                "cName": "Test community",
+                "cDesc": "Test description",
+            },
+            self.testUserKey,
+        )
+
+        assert set(self.system.platform.communities) == communityIDs
+        assert len(self.testUser.state.actionHistory) == actionHistoryLength
+
+    def createPost(self):
+        response = {
+            "aType": "post",
+            "cID": "G123",
+            "pTitle": "Test post",
+            "pContent": "Test post content",
+        }
+
+        self.system._handleCreatePost(response, self.testUserKey)
+
+        action = self.testUser.state.actionHistory[-1]
+        post = self.system.platform.traverseTo(action.gID)
+
+        assert action.aType == "post"
+        assert action.pTitle == response["pTitle"]
+        assert action.pContent == response["pContent"]
+        assert post.author == self.testUserKey
+        assert action.gID in self.system.platform.postStore
+
+    def createReply(self):
+        response = {
+            "aType": "reply",
+            "rID": "G123P12345",
+            "rContent": "Test reply content",
+        }
+
+        self.system._handleCreateReply(response, self.testUserKey)
+
+        action = self.testUser.state.actionHistory[-1]
+        reply = self.system.platform.traverseTo(action.gID)
+
+        assert action.aType == "reply"
+        assert action.rContent == response["rContent"]
+        assert reply.author == self.testUserKey
+
+    def createVote(self):
+        targetID = "G123P12345"
+        target = self.system.platform.traverseTo(targetID)
+        previousUpvotes = target.upvotes
+        response = {
+            "aType": "vote",
+            "vOn": targetID,
+            "vType": "0",
+        }
+
+        self.system._handleCreateVote(response, self.testUserKey)
+
+        action = self.testUser.state.actionHistory[-1]
+
+        assert action.aType == "vote"
+        assert action.vOn == targetID
+        assert action.vType == 0
+        assert target.upvotes == previousUpvotes + 1
 
     def navIgnore(self):
         # Copy the initial user data
@@ -227,12 +297,15 @@ class SystemTests:
 
     def runSuite(self):
         self.userInitialization()
+        self.createCommunity()
+        self.createPost()
+        self.createReply()
+        self.createVote()
         self.navIgnore()
         self.navFeed()
         self.navScroll()
-        self.navBack()
         self.navClick()
-
+        self.navBack()
 
         print("System test suite completed with no errors")
 

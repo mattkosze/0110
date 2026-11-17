@@ -1,4 +1,3 @@
-
 class Community:
      def __init__(self, id, name, desc, posts={}, members={}):
          self.id = id # str
