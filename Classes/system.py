@@ -19,21 +19,39 @@ class System:
         # Number of items seen in a given timeBlock
         self.viewSize = viewSize
 
+        # <-- LOG -->
+        # Used to record the actions at every turn and time within the simulation.
+        self.globalLog = {}
+
     def runSimulation(self, simLength):
         # Length in turns, where each turn represents an up to {turnLength} second block with up to {turnLength/timeLength} actions each.
         self.simLength = simLength
 
         self._initializeUserStates()
 
-        for i in range(simLength):
-            # TODO
-            pass
+        for turn in range(simLength):
+            tLog = {}
+
+            for uID in self.platform.users:
+                actions = self.handleTurn(uID)
+                tLog[uID] = actions
+
+            self.globalLog[i] = tLog
 
     # Overarching function to handle an agents turn 
     def handleTurn(self, uID):
+        actions = []
+
         for timeStep in range(self.numTimeBlocks):
             # Handle each time within a turn
+            # CALL FUNCTION FOR LLM CALL AND HAVE IT RETURN A RESPONSE OF DICT TYPE FOLLOWING `STORAGE/EXAMPLE/'LLM RESPONSES'`
+            response = None
+
+            # HANDLE RESPONSE PROCESSING
+            action = self._process(response, UID)
+
             pass
+            
 
     # <----------------- Internal action processing functions ----------------->
     def _initializeUserStates(self):
