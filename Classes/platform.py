@@ -93,7 +93,6 @@ class Platform:
             data = json.load(file)
 
         for uID in data:
-            
             entry = data[uID]
 
             community = self.communities

@@ -13,6 +13,58 @@ class Simulant(Profile):
 
         self.state = State()
 
+    def action(self, callNum):
+        callNum %= 8
+
+        if callNum == 0:
+         response = {
+                    "aType": "navigate",
+                    "nType": "ignore"
+                }
+        elif callNum == 1:
+            response = {
+                "aType": "navigate",
+                "nType": "back"
+            }
+        elif callNum == 2:
+            response = {
+                "aType": "post",
+                "cID": "G123",
+                "pTitle": "Simulated post",
+                "pContent": "post content"
+            }
+        elif callNum == 3:
+            response = {
+                "aType": "navigate",
+                "nType": "click",
+                "on": "0"
+            }
+        elif callNum == 4:
+            response = {
+                "aType": "navigate",
+                "nType": "feed"
+            }
+        elif callNum == 5:
+            response = {
+                "aType": "navigate",
+                "nType": "scroll"
+            }
+        elif callNum == 6:
+            response = {
+                "aType": "vote",
+                "vOn": "G123P12345R123456",
+                "vType": "0"
+            }
+        elif callNum == 7:
+            response = {
+                "aType": "reply",
+                "rID": "G123P12345R123456",
+                "rContent": "text content"
+            }
+
+        return response
+
+
     def loadContent(self, IDs):
         contents = {}
 

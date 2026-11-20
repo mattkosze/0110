@@ -1,7 +1,7 @@
 import copy
 
 from Classes.platform import Platform
-from Classes.schemas import navAction, comAction, posAction, repAction, votAction
+from Classes.schemas import navAction, comAction, posAction, repAction, votAction, logItem
 
 class System:
     def __init__(self, pData, pUsers, turnLength, timeLength, viewSize):
@@ -15,7 +15,7 @@ class System:
         # Length of a timeblock, e.g. 6 seconds
         self.timeLength = timeLength
         # Number of timeSteps within a turn, e.g. 30/6 = 5 timeSteps, where a timeStep is the one action unit
-        self.timeSteps = turnLength/timeLength
+        self.timeSteps = int(turnLength/timeLength)
         # Number of items seen in a given timeBlock
         self.viewSize = viewSize
 
@@ -23,35 +23,39 @@ class System:
         # Used to record the actions at every turn and time within the simulation.
         self.globalLog = {}
 
+    # Main simulation function that invokes the simulation for a given number of turns
     def runSimulation(self, simLength):
         # Length in turns, where each turn represents an up to {turnLength} second block with up to {turnLength/timeLength} actions each.
         self.simLength = simLength
 
         self._initializeUserStates()
 
+        # Run simulation for specific number of turns
         for turn in range(simLength):
             tLog = {}
 
+            # Call each user at each turn
             for uID in self.platform.users:
-                actions = self.handleTurn(uID)
+                actions = self.handleTurn(turn, uID)
                 tLog[uID] = actions
 
-            self.globalLog[i] = tLog
+            self.globalLog[turn] = tLog
 
-    # Overarching function to handle an agents turn 
-    def handleTurn(self, uID):
+
+    # Handles a user's turn
+    def handleTurn(self, turn, uID):
         actions = []
 
-        for timeStep in range(self.numTimeBlocks):
-            # Handle each time within a turn
-            # CALL FUNCTION FOR LLM CALL AND HAVE IT RETURN A RESPONSE OF DICT TYPE FOLLOWING `STORAGE/EXAMPLE/'LLM RESPONSES'`
-            response = None
+        for ts in range(self.timeSteps):
+            # Handle each timestamp within a turn
+            response = self.platform.users[uID].action(turn)
 
             # HANDLE RESPONSE PROCESSING
-            action = self._process(response, UID)
+            action = self._process(turn, ts, response, uID)
 
-            pass
-            
+            actions.append(action)
+        
+        return actions
 
     # <----------------- Internal action processing functions ----------------->
     def _initializeUserStates(self):
@@ -93,7 +97,7 @@ class System:
         return dict(feedItems[offset:offset + self.viewSize])
     
     # Overarching function to handle action processing as decided by the simulant
-    def _process(self, response, uID):
+    def _process(self, turn, ts, response, uID):
         action = response["aType"]
         if action == "community":
             self._handleCreateCommunity(response, uID)
@@ -117,6 +121,10 @@ class System:
                 self._handleNavBack(uID)
         else:
             raise RuntimeError
+
+        logItemObj = logItem(turn, ts, uID, action)
+
+        return logItemObj
 
     # Handles an ignore nav, where user remains on page. Prev / curr locations do not change
     def _handleNavIgnore(self, uID):

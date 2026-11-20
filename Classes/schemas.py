@@ -80,3 +80,10 @@ class votAction(Action):
         super().__init__("vote")
         self.vOn = vOn
         self.vType = vType
+
+class logItem:
+    def __init__(self, turn, ts, uID, action):
+        self.turn = turn
+        self.ts = ts
+        self.uID = uID
+        self.action = action
